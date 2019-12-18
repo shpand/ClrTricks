@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Runtime.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
+using ConsoleApp3.Models;
 using ConsoleApp3.PointerHelpers;
 using FSharpLibrary;
 
@@ -18,6 +20,7 @@ namespace ConsoleApp3
 			HowPointerWorks();
 	        HowExceptionRethrowWorks();
 	        HowToUseFSharpInDotNet();
+			HowToBypassPrivateConstructor();
 
 			//This method deadlocks!
 	        HowLockOnYieldWorks();
@@ -217,6 +220,13 @@ namespace ConsoleApp3
 			t1.Join();
 			Debug.WriteLine("end t1");
 			Debug.WriteLine("end GetData");
+		}
+
+		private static void HowToBypassPrivateConstructor()
+		{
+			//Allocates zeroed bytes object bypassing any constructor
+			var classWithPrivateConstructor = FormatterServices.GetUninitializedObject(typeof(ClassWithPrivateConstructor)) as ClassWithPrivateConstructor;
+			Console.WriteLine(classWithPrivateConstructor.GetState());
 		}
 	}
 }
