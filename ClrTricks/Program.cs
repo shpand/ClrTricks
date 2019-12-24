@@ -16,7 +16,7 @@ namespace ConsoleApp3
     {
         static async Task Main(string[] args)
         {
-	        await HowConfigureAwaitWorksWhenCompletesSynchronously();
+			await HowConfigureAwaitWorksWhenCompletesSynchronously();
 			HowPointerWorks();
 	        HowExceptionRethrowWorks();
 	        HowToUseFSharpInDotNet();
