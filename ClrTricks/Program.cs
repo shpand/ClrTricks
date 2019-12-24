@@ -16,6 +16,8 @@ namespace ConsoleApp3
     {
         static async Task Main(string[] args)
         {
+	        await ClrTricks.TaskSchedulers.TaskSchedulersTest.HowTaskSchedulersWork();
+
 			await HowConfigureAwaitWorksWhenCompletesSynchronously();
 			HowPointerWorks();
 	        HowExceptionRethrowWorks();
