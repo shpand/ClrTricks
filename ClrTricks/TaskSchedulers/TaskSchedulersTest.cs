@@ -24,6 +24,7 @@ namespace ClrTricks.TaskSchedulers
 			Console.WriteLine("Finished executing all parent and child tasks on ThreadId: " + Thread.CurrentThread.ManagedThreadId);
 
 			HowLimitedConcurrencyLevelTaskSchedulerWorks();
+			HowContinueWithExecuteSynchronouslyWorks();
 		}
 
 		private static void DoWork()
@@ -101,6 +102,29 @@ namespace ClrTricks.TaskSchedulers
             Task.WaitAll(tasks.ToArray());
             cts.Dispose();
             Console.WriteLine("\n\nSuccessful completion.");
+        }
+
+        private static void HowContinueWithExecuteSynchronouslyWorks()
+        {
+            //Example where ContinueWith executes in the same thread
+            Console.WriteLine("Main threadId: " + Thread.CurrentThread.ManagedThreadId);
+	        var tcs = new TaskCompletionSource<bool>();
+	        var cont = tcs.Task.ContinueWith(delegate
+	        {
+		        Console.WriteLine("ContinueWith threadId: " + Thread.CurrentThread.ManagedThreadId);
+	        }, CancellationToken.None, TaskContinuationOptions.ExecuteSynchronously);
+	        tcs.SetResult(true);
+	        cont.Wait();
+
+	        //Example where ContinueWith executes in different thread because taskScheduler doesn't allow that
+            Console.WriteLine("Main threadId: " + Thread.CurrentThread.ManagedThreadId);
+	        tcs = new TaskCompletionSource<bool>();
+	        cont = tcs.Task.ContinueWith(delegate
+	        {
+		        Console.WriteLine("ContinueWith threadId: " + Thread.CurrentThread.ManagedThreadId);
+	        }, CancellationToken.None, TaskContinuationOptions.ExecuteSynchronously, new DummyTaskScheduler());
+	        tcs.SetResult(true);
+	        cont.Wait();
         }
     }
 }
