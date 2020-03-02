@@ -6,6 +6,8 @@ using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
+using ClrTricks.ConcurrentCollections;
+using ClrTricks.SynchronizationContexts;
 using ConsoleApp3.Models;
 using ConsoleApp3.PointerHelpers;
 using FSharpLibrary;
@@ -16,7 +18,9 @@ namespace ConsoleApp3
     {
         static async Task Main(string[] args)
         {
-	        await ClrTricks.TaskSchedulers.TaskSchedulersTest.HowTaskSchedulersWork();
+			HowConcurrentLinkedListWorks();
+            await SynchronizationContextTest.HowSyncContextWorks();
+			await ClrTricks.TaskSchedulers.TaskSchedulersTest.HowTaskSchedulersWork();//this method throws error in async void method and crashes app!
 
 			await HowConfigureAwaitWorksWhenCompletesSynchronously();
 			HowPointerWorks();
@@ -229,6 +233,15 @@ namespace ConsoleApp3
 			//Allocates zeroed bytes object bypassing any constructor
 			var classWithPrivateConstructor = FormatterServices.GetUninitializedObject(typeof(ClassWithPrivateConstructor)) as ClassWithPrivateConstructor;
 			Console.WriteLine(classWithPrivateConstructor.GetState());
+		}
+
+		private static void HowConcurrentLinkedListWorks()
+		{
+			var cList = new ConcurrentLinkedList<int>();
+
+			cList.Add(1);
+			cList.Add(2);
+			cList.Add(3);
 		}
 	}
 }
