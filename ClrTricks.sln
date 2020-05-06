@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.29209.62
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClrTricks", "ClrTricks\ClrTricks.csproj", "{B3CCE0E0-2F3A-4040-BFF7-29E4251DC5E0}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FSharpLibrary", "FSharpLibrary\FSharpLibrary.fsproj", "{68D7B5A0-9285-4876-A3F1-F8A94498992E}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "FSharpLibrary", "FSharpLibrary\FSharpLibrary.fsproj", "{68D7B5A0-9285-4876-A3F1-F8A94498992E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

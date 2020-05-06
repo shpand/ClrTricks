@@ -6,6 +6,7 @@ using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
+using ClrTricks.CompilerOptimizations;
 using ClrTricks.ConcurrentCollections;
 using ClrTricks.SynchronizationContexts;
 using ConsoleApp3.Models;
@@ -16,8 +17,10 @@ namespace ConsoleApp3
 {
     class Program
     {
-        static async Task Main(string[] args)
+		static async Task Main(string[] args)
         {
+            ReorderTest.HowVolatileWorks();
+
 			HowConcurrentLinkedListWorks();
             await SynchronizationContextTest.HowSyncContextWorks();
 			await ClrTricks.TaskSchedulers.TaskSchedulersTest.HowTaskSchedulersWork();//this method throws error in async void method and crashes app!
