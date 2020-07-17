@@ -8,6 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using ClrTricks.CompilerOptimizations;
 using ClrTricks.ConcurrentCollections;
+using ClrTricks.Performance;
 using ClrTricks.SynchronizationContexts;
 using ConsoleApp3.Models;
 using ConsoleApp3.PointerHelpers;
@@ -19,6 +20,8 @@ namespace ConsoleApp3
     {
 		static async Task Main(string[] args)
         {
+            ArrayVsLinkedList.Run(); //iteration through array is 5-6 times faster than through linkedList!
+
             ReorderTest.HowVolatileWorks();
 
 			HowConcurrentLinkedListWorks();
