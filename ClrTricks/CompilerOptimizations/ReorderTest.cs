@@ -1,4 +1,6 @@
-﻿using System.Threading;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace ClrTricks.CompilerOptimizations
@@ -15,7 +17,7 @@ namespace ClrTricks.CompilerOptimizations
     internal static class ReorderTest
     {
         //remove volatile and build in release to see a dead lock
-        private static volatile int _a;
+        private static volatile List<int> _a;
         //private static int _a;
 
         public static void HowVolatileWorks()
@@ -23,15 +25,46 @@ namespace ClrTricks.CompilerOptimizations
             var task = new Task(Bar);
             task.Start();
             Thread.Sleep(1000);
-            _a = 0;
+            _a = new List<int>();
             task.Wait();
         }
 
         private static void Bar()
         {
-            _a = 1;
-            while (_a == 1)
+            _a = null;
+            while (_a == null)
             {
+            }
+        }
+
+
+        private static List<int> _list = new List<int>();
+
+        public static void HowVolatileWorks2()
+        {
+            var task = new Task(Bar2);
+            task.Start();
+            Thread.Sleep(100);
+
+            var copy = new List<int>(_list);
+            copy.Add(1);
+            Console.WriteLine("Added 1");
+            Thread.Sleep(1);
+            copy.Add(2);
+            Console.WriteLine("Added 2");
+            Thread.Sleep(1);
+            _list = copy;
+            Console.WriteLine("Swap lists");
+
+            task.Wait();
+            Console.WriteLine("Ended");
+        }
+
+        private static void Bar2()
+        {
+            while (_list.Count < 2)
+            {
+                Console.WriteLine("Inside while. _list.Count: " + _list.Count);
             }
         }
     }

@@ -23,9 +23,11 @@ namespace ConsoleApp3
             ArrayVsLinkedList.Run(); //iteration through array is 5-6 times faster than through linkedList!
 
             ReorderTest.HowVolatileWorks();
+            ReorderTest.HowVolatileWorks2();
 
 			HowConcurrentLinkedListWorks();
             await SynchronizationContextTest.HowSyncContextWorks();
+            await SynchronizationContextTest.HowTaskCompletionSourceWorks();
 			await ClrTricks.TaskSchedulers.TaskSchedulersTest.HowTaskSchedulersWork();//this method throws error in async void method and crashes app!
 
 			await HowConfigureAwaitWorksWhenCompletesSynchronously();
